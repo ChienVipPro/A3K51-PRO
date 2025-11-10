@@ -138,6 +138,13 @@
             }
         }
         
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
         footer {
             margin-top: 30px;
             text-align: center;
@@ -198,29 +205,18 @@
                 const colors = ['#e84393', '#fd79a8', '#ff7675', '#fab1a0', '#a29bfe'];
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 heart.style.backgroundColor = color;
-                heart.style.setProperty('--heart-color', color);
                 
                 // Vị trí ngẫu nhiên
                 heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.top = `${Math.random() * 100}vh`;
+                heart.style.top = `-${Math.random() * 100}px`;
                 
                 // Animation rơi
-                heart.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+                const duration = Math.random() * 5 + 5;
+                const delay = Math.random() * 5;
+                heart.style.animation = `fall ${duration}s linear ${delay}s infinite`;
                 
                 heartContainer.appendChild(heart);
             }
-            
-            // Thêm CSS animation cho trái tim rơi
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fall {
-                    to {
-                        transform: translateY(100vh) rotate(360deg);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
         }
         
         // Chuyển hướng ngẫu nhiên khi nhấn nút
