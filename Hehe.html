@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website với Hiệu Ứng Trái Tim</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #e84393;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(232, 67, 147, 0.3);
+            text-align: center;
+        }
+        
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(232, 67, 147, 0.4);
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+        }
+        
+        .heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e84393;
+            transform: rotate(45deg);
+            opacity: 0.7;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #e84393;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+        .drawing-heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .heart-path {
+            fill: none;
+            stroke: #e84393;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 8s ease-in-out infinite;
+        }
+        
+        @keyframes draw {
+            0%, 100% {
+                stroke-dashoffset: 1000;
+            }
+            50% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container" id="heartRain"></div>
+    
+    <div class="drawing-heart">
+        <svg viewBox="0 0 200 200">
+            <path class="heart-path" d="M100,40 C80,20 50,25 50,60 C50,90 100,120 100,120 C100,120 150,90 150,60 C150,25 120,20 100,40 Z" />
+        </svg>
+    </div>
+    
+    <div class="container">
+        <h1>Website với Hiệu Ứng Trái Tim</h1>
+        
+        <div class="buttons-grid">
+            <button class="button" data-url="https://github.com">My Github</button>
+            <button class="button" data-url="https://you.com">YouChat - Home</button>
+            <button class="button" data-url="https://example.com">Vdc.tan</button>
+            <button class="button" data-url="https://example.com">Web.Exif</button>
+            <button class="button" data-url="https://example.com">No.Cover.R</button>
+            <button class="button" data-url="https://example.com">Web.Dok.Ch</button>
+            <button class="button" data-url="https://example.com">Web.Baker</button>
+            <button class="button" data-url="https://example.com">Check acc.dt</button>
+            <button class="button" data-url="https://example.com">ff</button>
+            <button class="button" data-url="https://example.com">Game CS3</button>
+            <button class="button" data-url="https://example.com">News.TT</button>
+            <button class="button" data-url="https://example.com">Tsecs</button>
+            <button class="button" data-url="https://example.com">Secure Tool</button>
+        </div>
+        
+        <footer>
+            <p>Shake your play at tune @ Day</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tạo mưa trái tim
+        function createHeartRain() {
+            const heartContainer = document.getElementById('heartRain');
+            const heartCount = 50;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Kích thước ngẫu nhiên
+                const size = Math.random() * 20 + 10;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                
+                // Màu sắc ngẫu nhiên
+                const colors = ['#e84393', '#fd79a8', '#ff7675', '#fab1a0', '#a29bfe'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.backgroundColor = color;
+                heart.style.setProperty('--heart-color', color);
+                
+                // Vị trí ngẫu nhiên
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                
+                // Animation rơi
+                heart.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+                
+                heartContainer.appendChild(heart);
+            }
+            
+            // Thêm CSS animation cho trái tim rơi
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Chuyển hướng ngẫu nhiên khi nhấn nút
+        function setupRandomRedirects() {
+            const buttons = document.querySelectorAll('.button');
+            const urls = [
+                'https://github.com',
+                'https://you.com',
+                'https://google.com',
+                'https://youtube.com',
+                'https://facebook.com',
+                'https://twitter.com',
+                'https://instagram.com',
+                'https://linkedin.com',
+                'https://reddit.com',
+                'https://wikipedia.org',
+                'https://amazon.com',
+                'https://netflix.com'
+            ];
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Tạo hiệu ứng nhấn
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    // Chọn URL ngẫu nhiên
+                    const randomUrl = urls[Math.floor(Math.random() * urls.length)];
+                    
+                    // Tạo hiệu ứng chuyển hướng sau 0.5 giây
+                    setTimeout(() => {
+                        window.open(randomUrl, '_blank');
+                    }, 500);
+                });
+            });
+        }
+        
+        // Khởi tạo khi trang tải xong
+        document.addEventListener('DOMContentLoaded', function() {
+            createHeartRain();
+            setupRandomRedirects();
+        });
+    </script>
+</body>
+</html>
