@@ -650,4 +650,158 @@
                     progressText.textContent = `${Math.round(progress)}%`;
                     
                     // Thay đổi màu thanh loading theo %
-    
+                    const color = getColorByPercentage(progress);
+                    progressBar.style.background = color;
+                    
+                    if (progress === 100) {
+                        clearInterval(loadingInterval);
+                        
+                        // Ẩn màn hình loading
+                        setTimeout(function() {
+                            loadingScreen.style.opacity = '0';
+                            loadingScreen.style.visibility = 'hidden';
+                            
+                            // Hiện nội dung chính với hiệu ứng từ từ
+                            mainContainer.style.opacity = '1';
+                            mainContainer.style.transform = 'translateY(0)';
+                            
+                            header.style.opacity = '1';
+                            header.style.transform = 'translateY(0)';
+                            
+                            videoSection.style.opacity = '1';
+                            videoSection.style.transform = 'translateY(0)';
+                            
+                            controls.style.opacity = '1';
+                            controls.style.transform = 'translateY(0)';
+                            
+                            themeToggle.style.opacity = '1';
+                            footer.style.opacity = '1';
+                            
+                            // Bắt đầu các hiệu ứng
+                            createTitle();
+                            createFlowers();
+                        }, 300);
+                    }
+                }, intervalTime);
+            }
+            
+            // Tạo hiệu ứng chữ A3K51
+            function createTitle() {
+                animatedTitle.innerHTML = '';
+                
+                for (let i = 0; i < title.length; i++) {
+                    const letter = document.createElement('span');
+                    letter.className = 'letter';
+                    letter.textContent = title[i];
+                    letter.style.animationDelay = `${i * 0.3}s`;
+                    animatedTitle.appendChild(letter);
+                }
+            }
+            
+            // Tạo hiệu ứng hoa phượng rơi
+            function createFlowers() {
+                const flowers = ['❀', '✿', '🌸', '💮', '🏵️'];
+                
+                setInterval(() => {
+                    const flower = document.createElement('div');
+                    flower.className = 'flower';
+                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                    
+                    // Vị trí ngẫu nhiên nhưng tránh khu vực video
+                    const left = Math.random() * 100;
+                    flower.style.left = `${left}%`;
+                    
+                    // Chọn animation ngẫu nhiên (rơi trái hoặc phải)
+                    const animationType = Math.random() > 0.5 ? 'fall-left' : 'fall-right';
+                    flower.classList.add(animationType);
+                    
+                    // Thời gian rơi ngẫu nhiên
+                    const duration = Math.random() * 5 + 8;
+                    flower.style.animationDuration = `${duration}s`;
+                    
+                    flowerContainer.appendChild(flower);
+                    
+                    // Xóa hoa sau khi rơi xong
+                    setTimeout(() => {
+                        if (flower.parentNode) {
+                            flower.parentNode.removeChild(flower);
+                        }
+                    }, duration * 1000);
+                }, 300);
+            }
+            
+            // Chuyển đổi chế độ sáng/tối
+            themeToggle.addEventListener('click', function() {
+                isDarkMode = !isDarkMode;
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                themeIcon.textContent = isDarkMode ? '🌙' : '☀️';
+            });
+            
+            // Điều chỉnh âm lượng
+            volumeControl.addEventListener('input', function() {
+                if (mediaElement.tagName === 'VIDEO') {
+                    mediaElement.volume = this.value;
+                }
+            });
+            
+            // Xử lý nút toàn màn hình
+            fullscreenBtn.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    if (videoContainer.requestFullscreen) {
+                        videoContainer.requestFullscreen();
+                    } else if (videoContainer.mozRequestFullScreen) {
+                        videoContainer.mozRequestFullScreen();
+                    } else if (videoContainer.webkitRequestFullscreen) {
+                        videoContainer.webkitRequestFullscreen();
+                    } else if (videoContainer.msRequestFullscreen) {
+                        videoContainer.msRequestFullscreen();
+                    }
+                    
+                    // Xoay ngang khi vào chế độ toàn màn hình (giả lập)
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(() => {
+                            console.log('Không thể xoay màn hình');
+                        });
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+            });
+            
+            // Kiểm tra xem video có tải được không
+            mediaElement.addEventListener('error', function() {
+                console.error("Không thể tải video. Vui lòng kiểm tra tên file và định dạng.");
+                
+                // Tạo thông báo lỗi
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = `
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: white;
+                    text-align: center;
+                    z-index: 5;
+                `;
+                errorMsg.innerHTML = `
+                    <p style="font-size: 1.2rem; margin-bottom: 10px;">Không thể tải video</p>
+                    <p style="font-size: 0.9rem;">Vui lòng kiểm tra file "1.mp4" có trong thư mục không</p>
+                `;
+                videoContainer.appendChild(errorMsg);
+            });
+            
+            // Khởi tạo hiệu ứng
+            createParticles();
+            startLoading();
+        });
+    </script>
+</body>
+</html>
