@@ -653,7 +653,7 @@
                     const color = getColorByPercentage(progress);
                     progressBar.style.background = color;
                     
-                    if (progress === 100) {
+                    if (progress >= 100) {
                         clearInterval(loadingInterval);
                         
                         // Ẩn màn hình loading
@@ -755,13 +755,6 @@
                         videoContainer.webkitRequestFullscreen();
                     } else if (videoContainer.msRequestFullscreen) {
                         videoContainer.msRequestFullscreen();
-                    }
-                    
-                    // Xoay ngang khi vào chế độ toàn màn hình (giả lập)
-                    if (screen.orientation && screen.orientation.lock) {
-                        screen.orientation.lock('landscape').catch(() => {
-                            console.log('Không thể xoay màn hình');
-                        });
                     }
                 } else {
                     if (document.exitFullscreen) {
