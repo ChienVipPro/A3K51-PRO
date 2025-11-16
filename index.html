@@ -2,50 +2,215 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Lớp Học Hạnh Phúc A3K51</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A3K51 - Lớp Học Hạnh Phúc</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        } it
+        }
+        
+        :root {
+            --primary-color: #1a759f;
+            --secondary-color: #76c893;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --bg-color: #ffffff;
+            --container-bg: rgba(255, 255, 255, 0.95);
+        }
+        
+        .dark-mode {
+            --primary-color: #4ecdc4;
+            --secondary-color: #1a759f;
+            --accent-color: #ffe66d;
+            --text-color: #f0f0f0;
+            --bg-color: #121212;
+            --container-bg: rgba(30, 30, 30, 0.95);
+        }
         
         body {
-            background: linear-gradient(135deg, #1a759f, #76c893, #b5e48c);
-            color: #333;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), #b5e48c);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 10px;
             overflow-x: hidden;
+            transition: background 0.5s ease;
         }
         
+        /* Loading Screen */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .loading-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            letter-spacing: 3px;
+            position: relative;
+        }
+        
+        .loading-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+        }
+        
+        .progress-container {
+            width: 90%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.5),
+                inset 0 1px 3px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.2s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        .progress-text {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+        
+        .loading-subtext {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+        
+        /* Main Content */
         .container {
             width: 100%;
             max-width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: var(--container-bg);
             border-radius: 15px;
             padding: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             margin-top: 10px;
             position: relative;
             overflow: hidden;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
         
         .header {
             text-align: center;
             margin-bottom: 15px;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
         }
         
         .animated-title {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 800;
-            color: #1a759f;
+            color: var(--primary-color);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            height: 60px;
+            height: 70px;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -60,11 +225,11 @@
         
         @keyframes color-change {
             0% {
-                color: #1a759f;
+                color: var(--primary-color);
                 transform: scale(1);
             }
             25% {
-                color: #ff6b6b;
+                color: var(--accent-color);
                 transform: scale(1.1);
             }
             50% {
@@ -76,13 +241,13 @@
                 transform: scale(1.1);
             }
             100% {
-                color: #1a759f;
+                color: var(--primary-color);
                 transform: scale(1);
             }
         }
         
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 1px;
             animation: move-text 5s infinite linear, color-random 2s infinite alternate;
@@ -102,7 +267,7 @@
         
         @keyframes color-random {
             0% {
-                color: #ff6b6b;
+                color: var(--accent-color);
             }
             25% {
                 color: #4ecdc4;
@@ -111,10 +276,10 @@
                 color: #ffe66d;
             }
             75% {
-                color: #1a759f;
+                color: var(--primary-color);
             }
             100% {
-                color: #ff6b6b;
+                color: var(--accent-color);
             }
         }
         
@@ -124,6 +289,9 @@
             margin: 15px 0;
             position: relative;
             z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.6s, transform 0.8s ease 0.6s;
         }
         
         .video-container {
@@ -143,9 +311,9 @@
             right: 0;
             bottom: 0;
             border-radius: 10px;
-            border: 3px solid #ff6b6b;
+            border: 3px solid var(--accent-color);
             box-shadow: 
-                0 0 15px #ff6b6b,
+                0 0 15px var(--accent-color),
                 0 0 30px rgba(255, 107, 107, 0.7),
                 inset 0 0 15px rgba(255, 107, 107, 0.2);
             z-index: 2;
@@ -155,9 +323,9 @@
         
         @keyframes border-pulse {
             0% {
-                border-color: #ff6b6b;
+                border-color: var(--accent-color);
                 box-shadow: 
-                    0 0 15px #ff6b6b,
+                    0 0 15px var(--accent-color),
                     0 0 30px rgba(255, 107, 107, 0.7),
                     inset 0 0 15px rgba(255, 107, 107, 0.2);
             }
@@ -186,6 +354,9 @@
             gap: 10px;
             margin-top: 15px;
             flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.9s, transform 0.8s ease 0.9s;
         }
         
         .control-group {
@@ -200,7 +371,7 @@
         
         .control-group label {
             font-weight: 600;
-            color: #184e77;
+            color: var(--primary-color);
             font-size: 0.9rem;
         }
         
@@ -209,7 +380,7 @@
         }
         
         .fullscreen-btn {
-            background: linear-gradient(135deg, #1a759f, #168aad);
+            background: linear-gradient(135deg, var(--primary-color), #168aad);
             color: white;
             border: none;
             padding: 8px 15px;
@@ -224,12 +395,43 @@
             transform: scale(1.05);
         }
         
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--container-bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: transform 0.3s;
+            opacity: 0;
+            transition: opacity 0.8s ease 1.2s;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .theme-icon {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        
         .footer {
             margin-top: 15px;
             text-align: center;
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.9);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.8s ease 1.2s;
         }
         
         /* Hiệu ứng hoa phượng rơi */
@@ -237,14 +439,36 @@
             position: fixed;
             top: -50px;
             font-size: 20px;
-            color: #ff6b6b;
+            color: var(--accent-color);
             text-shadow: 0 0 5px rgba(255, 107, 107, 0.7);
             z-index: 1;
             user-select: none;
             pointer-events: none;
+            opacity: 0;
         }
         
-        @keyframes fall {
+        .fall-left {
+            animation: fall-left 8s linear infinite;
+        }
+        
+        .fall-right {
+            animation: fall-right 10s linear infinite;
+        }
+        
+        @keyframes fall-left {
+            0% {
+                top: -50px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                transform: translateX(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fall-right {
             0% {
                 top: -50px;
                 transform: translateX(0) rotate(0deg);
@@ -270,6 +494,10 @@
             .subtitle {
                 font-size: 2rem;
             }
+            
+            .loading-text {
+                font-size: 3rem;
+            }
         }
         
         @media (min-width: 768px) {
@@ -285,11 +513,46 @@
             .subtitle {
                 font-size: 2.5rem;
             }
+            
+            .video-container {
+                max-width: 900px;
+            }
+            
+            .loading-text {
+                font-size: 3.5rem;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .video-container {
+                max-width: 1000px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="floating-particles" id="particlesContainer"></div>
+        <div class="loading-content">
+            <div class="loading-text">LOADING</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">0%</p>
+            <p class="loading-subtext">Chuẩn bị trải nghiệm tuyệt vời...</p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <button class="theme-toggle" id="themeToggle">
+        <span class="theme-icon">☀️</span>
+    </button>
+    
+    <!-- Hiệu ứng hoa phượng rơi (phía sau) -->
+    <div id="flowerContainer"></div>
+    
+    <div class="container" id="mainContainer">
         <div class="header">
             <div class="animated-title" id="animatedTitle"></div>
             <div class="subtitle">LỚP HỌC HẠNH PHÚC</div>
@@ -321,88 +584,70 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const mainContainer = document.getElementById('mainContainer');
+            const header = document.querySelector('.header');
+            const videoSection = document.querySelector('.video-section');
+            const controls = document.querySelector('.controls');
+            const themeToggle = document.getElementById('themeToggle');
+            const footer = document.querySelector('.footer');
+            const themeIcon = themeToggle.querySelector('.theme-icon');
             const mediaElement = document.getElementById('mediaElement');
             const animatedTitle = document.getElementById('animatedTitle');
             const volumeControl = document.getElementById('volumeControl');
             const fullscreenBtn = document.getElementById('fullscreenBtn');
             const videoContainer = document.querySelector('.video-container');
+            const flowerContainer = document.getElementById('flowerContainer');
+            const particlesContainer = document.getElementById('particlesContainer');
             const title = "A3K51";
             
-            // Tạo hiệu ứng chữ A3K51 vĩnh viễn
-            function createTitle() {
-                animatedTitle.innerHTML = '';
-                
-                for (let i = 0; i < title.length; i++) {
-                    const letter = document.createElement('span');
-                    letter.className = 'letter';
-                    letter.textContent = title[i];
-                    letter.style.animationDelay = `${i * 0.3}s`;
-                    animatedTitle.appendChild(letter);
-                }
-            }
+            let isDarkMode = false;
             
-            // Tạo hiệu ứng hoa phượng rơi (phía sau video)
-            function createFlowers() {
-                const flowers = ['❀', '✿', '🌸', '💮', '🏵️'];
-                
-                setInterval(() => {
-                    const flower = document.createElement('div');
-                    flower.className = 'flower';
-                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            // Tạo hiệu ứng hạt nổi
+            function createParticles() {
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
                     
-                    // Vị trí ngẫu nhiên nhưng tránh khu vực video
+                    const size = Math.random() * 20 + 5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
                     const left = Math.random() * 100;
-                    flower.style.left = `${left}%`;
+                    const top = Math.random() * 100;
+                    particle.style.left = `${left}%`;
+                    particle.style.top = `${top}%`;
                     
-                    // Thời gian rơi ngẫu nhiên
-                    const duration = Math.random() * 5 + 5;
-                    flower.style.animation = `fall ${duration}s linear forwards`;
+                    particle.style.animationDelay = `${Math.random() * 15}s`;
+                    particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
                     
-                    document.body.appendChild(flower);
-                    
-                    // Xóa hoa sau khi rơi xong
-                    setTimeout(() => {
-                        if (flower.parentNode) {
-                            flower.parentNode.removeChild(flower);
-                        }
-                    }, duration * 1000);
-                }, 300);
+                    particlesContainer.appendChild(particle);
+                }
             }
             
-            // Điều chỉnh âm lượng
-            volumeControl.addEventListener('input', function() {
-                if (mediaElement.tagName === 'VIDEO') {
-                    mediaElement.volume = this.value;
-                }
-            });
+            // Hàm tính toán màu dựa trên %
+            function getColorByPercentage(percent) {
+                // Màu chuyển từ xanh nhạt (lạnh) đến đỏ (nóng)
+                const hue = 180 - (percent / 100) * 180;
+                return `hsl(${hue}, 100%, 50%)`;
+            }
             
-            // Xử lý nút toàn màn hình
-            fullscreenBtn.addEventListener('click', function() {
-                if (videoContainer.requestFullscreen) {
-                    videoContainer.requestFullscreen();
-                } else if (videoContainer.mozRequestFullScreen) {
-                    videoContainer.mozRequestFullScreen();
-                } else if (videoContainer.webkitRequestFullscreen) {
-                    videoContainer.webkitRequestFullscreen();
-                } else if (videoContainer.msRequestFullscreen) {
-                    videoContainer.msRequestFullscreen();
-                }
-            });
-            
-            // Kiểm tra xem video có tải được không
-            mediaElement.addEventListener('error', function() {
-                // Nếu không tải được video, thử tải ảnh
-                mediaElement.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = '1.jpg';
-                img.alt = 'Lớp học hạnh phúc A3K51';
-                mediaElement.appendChild(img);
-            });
-            
-            // Khởi tạo hiệu ứng
-            createTitle();
-            createFlowers();
-        });
-    </script>
-</body>
-</html>
+            // Bắt đầu loading nhanh (2 giây)
+            function startLoading() {
+                let progress = 0;
+                const totalTime = 2000; // 2 giây
+                const intervalTime = 30; // cập nhật mỗi 30ms
+                const steps = totalTime / intervalTime;
+                const increment = 100 / steps;
+                
+                const loadingInterval = setInterval(function() {
+                    progress += increment;
+                    if (progress > 100) progress = 100;
+                    
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `${Math.round(progress)}%`;
+                    
+                    // Thay đổi màu thanh loading theo %
+    
