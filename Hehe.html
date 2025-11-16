@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website với Hiệu Ứng Trái Tim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lớp Học Hạnh Phúc A3K51</title>
     <style>
         * {
             margin: 0;
@@ -13,253 +13,396 @@
         }
         
         body {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            background: linear-gradient(135deg, #1a759f, #76c893, #b5e48c);
+            color: #333;
             min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
+            overflow-x: hidden;
         }
         
         .container {
-            max-width: 800px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-top: 20px;
+            max-width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .animated-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #1a759f;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            height: 60px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .letter {
+            display: inline-block;
+            animation: color-change 3s infinite alternate;
+        }
+        
+        @keyframes color-change {
+            0% {
+                color: #1a759f;
+                transform: scale(1);
+            }
+            25% {
+                color: #ff6b6b;
+                transform: scale(1.1);
+            }
+            50% {
+                color: #4ecdc4;
+                transform: scale(1);
+            }
+            75% {
+                color: #ffe66d;
+                transform: scale(1.1);
+            }
+            100% {
+                color: #1a759f;
+                transform: scale(1);
+            }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            animation: move-text 5s infinite linear, color-random 2s infinite alternate;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        @keyframes move-text {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        @keyframes color-random {
+            0% {
+                color: #ff6b6b;
+            }
+            25% {
+                color: #4ecdc4;
+            }
+            50% {
+                color: #ffe66d;
+            }
+            75% {
+                color: #1a759f;
+            }
+            100% {
+                color: #ff6b6b;
+            }
+        }
+        
+        .video-section {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
             position: relative;
             z-index: 10;
         }
         
-        h1 {
-            text-align: center;
-            color: #e84393;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        .video-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background-color: #000;
         }
         
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+        .video-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            border: 3px solid #ff6b6b;
+            box-shadow: 
+                0 0 15px #ff6b6b,
+                0 0 30px rgba(255, 107, 107, 0.7),
+                inset 0 0 15px rgba(255, 107, 107, 0.2);
+            z-index: 2;
+            pointer-events: none;
+            animation: border-pulse 3s infinite alternate;
         }
         
-        .button {
-            background: linear-gradient(135deg, #e84393, #fd79a8);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(232, 67, 147, 0.3);
-            text-align: center;
+        @keyframes border-pulse {
+            0% {
+                border-color: #ff6b6b;
+                box-shadow: 
+                    0 0 15px #ff6b6b,
+                    0 0 30px rgba(255, 107, 107, 0.7),
+                    inset 0 0 15px rgba(255, 107, 107, 0.2);
+            }
+            100% {
+                border-color: #ffe66d;
+                box-shadow: 
+                    0 0 20px #ffe66d,
+                    0 0 40px rgba(255, 230, 109, 0.7),
+                    inset 0 0 15px rgba(255, 230, 109, 0.2);
+            }
         }
         
-        .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(232, 67, 147, 0.4);
-            background: linear-gradient(135deg, #fd79a8, #e84393);
-        }
-        
-        .heart-container {
-            position: fixed;
+        video, img {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            object-fit: cover;
+            border-radius: 8px;
         }
         
-        .heart {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #e84393;
-            transform: rotate(45deg);
-            opacity: 0.7;
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
         
-        .heart:before, .heart:after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background-color: #e84393;
-            border-radius: 50%;
-            position: absolute;
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .heart:before {
-            top: -10px;
-            left: 0;
+        .control-group label {
+            font-weight: 600;
+            color: #184e77;
+            font-size: 0.9rem;
         }
         
-        .heart:after {
-            top: 0;
-            left: -10px;
+        input[type="range"] {
+            width: 100px;
         }
         
-        .drawing-heart {
+        .fullscreen-btn {
+            background: linear-gradient(135deg, #1a759f, #168aad);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        
+        .fullscreen-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hiệu ứng hoa phượng rơi */
+        .flower {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            z-index: 5;
+            top: -50px;
+            font-size: 20px;
+            color: #ff6b6b;
+            text-shadow: 0 0 5px rgba(255, 107, 107, 0.7);
+            z-index: 1;
+            user-select: none;
             pointer-events: none;
-        }
-        
-        .heart-path {
-            fill: none;
-            stroke: #e84393;
-            stroke-width: 3;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: draw 8s ease-in-out infinite;
-        }
-        
-        @keyframes draw {
-            0%, 100% {
-                stroke-dashoffset: 1000;
-            }
-            50% {
-                stroke-dashoffset: 0;
-            }
         }
         
         @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
+            0% {
+                top: -50px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                top: 100vh;
+                transform: translateX(100px) rotate(360deg);
                 opacity: 0;
             }
         }
         
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #636e72;
-            font-size: 0.9rem;
+        @media (min-width: 500px) {
+            .container {
+                max-width: 95%;
+            }
+            
+            .animated-title {
+                font-size: 3.5rem;
+                height: 80px;
+            }
+            
+            .subtitle {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+            
+            .animated-title {
+                font-size: 4rem;
+                height: 100px;
+            }
+            
+            .subtitle {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="heart-container" id="heartRain"></div>
-    
-    <div class="drawing-heart">
-        <svg viewBox="0 0 200 200">
-            <path class="heart-path" d="M100,40 C80,20 50,25 50,60 C50,90 100,120 100,120 C100,120 150,90 150,60 C150,25 120,20 100,40 Z" />
-        </svg>
-    </div>
-    
     <div class="container">
-        <h1>Website với Hiệu Ứng Trái Tim</h1>
-        
-        <div class="buttons-grid">
-            <button class="button" data-url="https://github.com">My Github</button>
-            <button class="button" data-url="https://you.com">YouChat - Home</button>
-            <button class="button" data-url="https://example.com">Vdc.tan</button>
-            <button class="button" data-url="https://example.com">Web.Exif</button>
-            <button class="button" data-url="https://example.com">No.Cover.R</button>
-            <button class="button" data-url="https://example.com">Web.Dok.Ch</button>
-            <button class="button" data-url="https://example.com">Web.Baker</button>
-            <button class="button" data-url="https://example.com">Check acc.dt</button>
-            <button class="button" data-url="https://example.com">ff</button>
-            <button class="button" data-url="https://example.com">Game CS3</button>
-            <button class="button" data-url="https://example.com">News.TT</button>
-            <button class="button" data-url="https://example.com">Tsecs</button>
-            <button class="button" data-url="https://example.com">Secure Tool</button>
+        <div class="header">
+            <div class="animated-title" id="animatedTitle"></div>
+            <div class="subtitle">LỚP HỌC HẠNH PHÚC</div>
         </div>
         
-        <footer>
-            <p>Shake your play at tune @ Day</p>
-        </footer>
+        <div class="video-section">
+            <div class="video-container">
+                <div class="video-border"></div>
+                <video id="mediaElement" controls>
+                    <source src="1.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                </video>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="volumeControl">Âm lượng:</label>
+                <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1">
+            </div>
+            
+            <button class="fullscreen-btn" id="fullscreenBtn">Toàn màn hình</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Lớp Học Hạnh Phúc A3K51</p>
     </div>
 
     <script>
-        // Tạo mưa trái tim
-        function createHeartRain() {
-            const heartContainer = document.getElementById('heartRain');
-            const heartCount = 50;
-            
-            for (let i = 0; i < heartCount; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                
-                // Kích thước ngẫu nhiên
-                const size = Math.random() * 20 + 10;
-                heart.style.width = `${size}px`;
-                heart.style.height = `${size}px`;
-                
-                // Màu sắc ngẫu nhiên
-                const colors = ['#e84393', '#fd79a8', '#ff7675', '#fab1a0', '#a29bfe'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                heart.style.backgroundColor = color;
-                
-                // Vị trí ngẫu nhiên
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.top = `-${Math.random() * 100}px`;
-                
-                // Animation rơi
-                const duration = Math.random() * 5 + 5;
-                const delay = Math.random() * 5;
-                heart.style.animation = `fall ${duration}s linear ${delay}s infinite`;
-                
-                heartContainer.appendChild(heart);
-            }
-        }
-        
-        // Chuyển hướng ngẫu nhiên khi nhấn nút
-        function setupRandomRedirects() {
-            const buttons = document.querySelectorAll('.button');
-            const urls = [
-                'https://github.com',
-                'https://you.com',
-                'https://google.com',
-                'https://youtube.com',
-                'https://facebook.com',
-                'https://twitter.com',
-                'https://instagram.com',
-                'https://linkedin.com',
-                'https://reddit.com',
-                'https://wikipedia.org',
-                'https://amazon.com',
-                'https://netflix.com'
-            ];
-            
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Tạo hiệu ứng nhấn
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                    
-                    // Chọn URL ngẫu nhiên
-                    const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-                    
-                    // Tạo hiệu ứng chuyển hướng sau 0.5 giây
-                    setTimeout(() => {
-                        window.open(randomUrl, '_blank');
-                    }, 500);
-                });
-            });
-        }
-        
-        // Khởi tạo khi trang tải xong
         document.addEventListener('DOMContentLoaded', function() {
-            createHeartRain();
-            setupRandomRedirects();
+            const mediaElement = document.getElementById('mediaElement');
+            const animatedTitle = document.getElementById('animatedTitle');
+            const volumeControl = document.getElementById('volumeControl');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const videoContainer = document.querySelector('.video-container');
+            const title = "A3K51";
+            
+            // Tạo hiệu ứng chữ A3K51 vĩnh viễn
+            function createTitle() {
+                animatedTitle.innerHTML = '';
+                
+                for (let i = 0; i < title.length; i++) {
+                    const letter = document.createElement('span');
+                    letter.className = 'letter';
+                    letter.textContent = title[i];
+                    letter.style.animationDelay = `${i * 0.3}s`;
+                    animatedTitle.appendChild(letter);
+                }
+            }
+            
+            // Tạo hiệu ứng hoa phượng rơi (phía sau video)
+            function createFlowers() {
+                const flowers = ['❀', '✿', '🌸', '💮', '🏵️'];
+                
+                setInterval(() => {
+                    const flower = document.createElement('div');
+                    flower.className = 'flower';
+                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                    
+                    // Vị trí ngẫu nhiên nhưng tránh khu vực video
+                    const left = Math.random() * 100;
+                    flower.style.left = `${left}%`;
+                    
+                    // Thời gian rơi ngẫu nhiên
+                    const duration = Math.random() * 5 + 5;
+                    flower.style.animation = `fall ${duration}s linear forwards`;
+                    
+                    document.body.appendChild(flower);
+                    
+                    // Xóa hoa sau khi rơi xong
+                    setTimeout(() => {
+                        if (flower.parentNode) {
+                            flower.parentNode.removeChild(flower);
+                        }
+                    }, duration * 1000);
+                }, 300);
+            }
+            
+            // Điều chỉnh âm lượng
+            volumeControl.addEventListener('input', function() {
+                if (mediaElement.tagName === 'VIDEO') {
+                    mediaElement.volume = this.value;
+                }
+            });
+            
+            // Xử lý nút toàn màn hình
+            fullscreenBtn.addEventListener('click', function() {
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.mozRequestFullScreen) {
+                    videoContainer.mozRequestFullScreen();
+                } else if (videoContainer.webkitRequestFullscreen) {
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.msRequestFullscreen) {
+                    videoContainer.msRequestFullscreen();
+                }
+            });
+            
+            // Kiểm tra xem video có tải được không
+            mediaElement.addEventListener('error', function() {
+                // Nếu không tải được video, thử tải ảnh
+                mediaElement.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = '1.jpg';
+                img.alt = 'Lớp học hạnh phúc A3K51';
+                mediaElement.appendChild(img);
+            });
+            
+            // Khởi tạo hiệu ứng
+            createTitle();
+            createFlowers();
         });
     </script>
 </body>
