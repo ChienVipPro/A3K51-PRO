@@ -338,14 +338,14 @@
             }
         }
         
-        video, img {
+        video, iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
             border-radius: 10px;
+            border: none;
         }
         
         .controls {
@@ -585,7 +585,7 @@
             border-radius: 0;
         }
         
-        .landscape-mode video {
+        .landscape-mode iframe {
             border-radius: 0;
         }
         
@@ -657,7 +657,7 @@
                 <div class="progress-bar" id="progressBar"></div>
             </div>
             <p class="progress-text" id="progressText">0%</p>
-            <p class="loading-subtext">Chuẩn bị trải nghiệm tuyệt vời...</p>
+            <p class="loading-subtext">Đang Tải🥰...</p>
         </div>
     </div>
     
@@ -680,10 +680,11 @@
         <div class="video-section">
             <div class="video-container" id="videoContainer">
                 <div class="video-border"></div>
-                <video id="mediaElement" controls>
-                    <source src="1.mp4" type="video/mp4">
-                    Trình duyệt của bạn không hỗ trợ thẻ video.
-                </video>
+                <iframe id="mediaElement" 
+                    src="https://drive.google.com/file/d/1kG09Z2G2ZeUIVDtKxnIwDc7KSAFtT1A9/preview" 
+                    allow="autoplay; encrypted-media" 
+                    allowfullscreen>
+                </iframe>
             </div>
         </div>
         
@@ -712,9 +713,7 @@
             const controls = document.querySelector('.controls');
             const themeToggle = document.getElementById('themeToggle');
             const footer = document.querySelector('.footer');
-            const mediaElement = document.getElementById('mediaElement');
             const animatedTitle = document.getElementById('animatedTitle');
-            const volumeControl = document.getElementById('volumeControl');
             const fullscreenBtn = document.getElementById('fullscreenBtn');
             const videoContainer = document.getElementById('videoContainer');
             const flowerContainer = document.getElementById('flowerContainer');
@@ -858,13 +857,6 @@
                 toggleIcon.textContent = isDarkMode ? '☀️' : '🌙';
             });
             
-            // Điều chỉnh âm lượng
-            volumeControl.addEventListener('input', function() {
-                if (mediaElement.tagName === 'VIDEO') {
-                    mediaElement.volume = this.value;
-                }
-            });
-            
             // Xử lý nút chế độ ngang
             fullscreenBtn.addEventListener('click', function() {
                 if (!isLandscapeMode) {
@@ -968,28 +960,6 @@
                     screen.orientation.unlock();
                 }
             }
-            
-            // Kiểm tra xem video có tải được không
-            mediaElement.addEventListener('error', function() {
-                console.error("Không thể tải video. Vui lòng kiểm tra tên file và định dạng.");
-                
-                // Tạo thông báo lỗi
-                const errorMsg = document.createElement('div');
-                errorMsg.style.cssText = `
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    color: white;
-                    text-align: center;
-                    z-index: 5;
-                `;
-                errorMsg.innerHTML = `
-                    <p style="font-size: 1.2rem; margin-bottom: 10px;">Không thể tải video</p>
-                    <p style="font-size: 0.9rem;">Vui lòng kiểm tra file "1.mp4" có trong thư mục không</p>
-                `;
-                videoContainer.appendChild(errorMsg);
-            });
             
             // Khởi tạo hiệu ứng
             createParticles();
