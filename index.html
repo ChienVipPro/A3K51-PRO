@@ -19,6 +19,7 @@
             --text-color: #333;
             --bg-color: #ffffff;
             --container-bg: rgba(255, 255, 255, 0.95);
+            --brightness: 1;
         }
         
         .dark-mode {
@@ -37,9 +38,46 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
+            padding: 5px;
             overflow-x: hidden;
             transition: background 0.5s ease;
+            position: relative;
+        }
+        
+        /* Nền động */
+        .dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float-bg 20s infinite linear;
+        }
+        
+        @keyframes float-bg {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, 50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(50px, 100px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-50px, 50px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
         }
         
         /* Loading Screen */
@@ -67,7 +105,7 @@
         }
         
         .loading-text {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 30px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
@@ -185,20 +223,21 @@
             max-width: 100%;
             background-color: var(--container-bg);
             border-radius: 15px;
-            padding: 15px;
+            padding: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            margin-top: 10px;
+            margin-top: 5px;
             position: relative;
             overflow: hidden;
             z-index: 2;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease, transform 0.8s ease;
+            filter: brightness(var(--brightness));
         }
         
         .header {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             position: relative;
             opacity: 0;
             transform: translateY(20px);
@@ -206,16 +245,16 @@
         }
         
         .animated-title {
-            font-size: 3rem;
+            font-size: 5rem;
             font-weight: 800;
             color: var(--primary-color);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            height: 70px;
+            height: 100px;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         
         .letter {
@@ -286,7 +325,7 @@
         .video-section {
             display: flex;
             justify-content: center;
-            margin: 15px 0;
+            margin: 10px 0;
             position: relative;
             z-index: 10;
             opacity: 0;
@@ -297,8 +336,9 @@
         .video-container {
             position: relative;
             width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: 12px;
+            max-width: 800px;
+            aspect-ratio: 4/3;
+            border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             background-color: #000;
@@ -310,7 +350,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 3px solid var(--accent-color);
             box-shadow: 
                 0 0 15px var(--accent-color),
@@ -338,20 +378,18 @@
             }
         }
         
-        video, iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        iframe {
             width: 100%;
             height: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             border: none;
+            display: block;
         }
         
         .controls {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
             margin-top: 15px;
             flex-wrap: wrap;
             opacity: 0;
@@ -379,28 +417,11 @@
             width: 100px;
         }
         
-        .fullscreen-btn {
-            background: linear-gradient(135deg, var(--primary-color), #168aad);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, background 0.3s;
-        }
-        
-        .fullscreen-btn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #168aad, var(--primary-color));
-        }
-        
         /* Nút iOS Style */
         .ios-toggle {
             position: fixed;
-            top: 25px;
-            right: 25px;
+            top: 15px;
+            right: 15px;
             width: 60px;
             height: 32px;
             background: rgba(255, 255, 255, 0.25);
@@ -452,7 +473,7 @@
         }
         
         .footer {
-            margin-top: 15px;
+            margin-top: 10px;
             text-align: center;
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.9);
@@ -461,17 +482,33 @@
             transition: opacity 0.8s ease 1.2s;
         }
         
-        /* Hiệu ứng hoa phượng rơi */
-        .flower {
+        /* Hiệu ứng hoa và tuyết rơi */
+        .falling-container {
             position: fixed;
-            top: -50px;
-            font-size: 20px;
-            color: var(--accent-color);
-            text-shadow: 0 0 5px rgba(255, 107, 107, 0.7);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
             z-index: 1;
+        }
+        
+        .falling-item {
+            position: absolute;
             user-select: none;
             pointer-events: none;
             opacity: 0;
+            font-size: 20px;
+        }
+        
+        .flower {
+            color: var(--accent-color);
+            text-shadow: 0 0 5px rgba(255, 107, 107, 0.7);
+        }
+        
+        .snow {
+            color: white;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
         }
         
         .fall-left {
@@ -480,6 +517,10 @@
         
         .fall-right {
             animation: fall-right 10s linear infinite;
+        }
+        
+        .fall-slow {
+            animation: fall-slow 12s linear infinite;
         }
         
         @keyframes fall-left {
@@ -508,14 +549,23 @@
             }
         }
         
-        @media (min-width: 500px) {
-            .container {
-                max-width: 95%;
+        @keyframes fall-slow {
+            0% {
+                top: -50px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
             }
-            
+            100% {
+                top: 100vh;
+                transform: translateX(50px) rotate(180deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (min-width: 500px) {
             .animated-title {
-                font-size: 3.5rem;
-                height: 80px;
+                font-size: 5.5rem;
+                height: 110px;
             }
             
             .subtitle {
@@ -523,131 +573,40 @@
             }
             
             .loading-text {
-                font-size: 3rem;
-            }
-            
-            .video-container {
-                max-width: 95%;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .container {
-                max-width: 90%;
-            }
-            
-            .animated-title {
-                font-size: 4rem;
-                height: 100px;
-            }
-            
-            .subtitle {
-                font-size: 2.5rem;
-            }
-            
-            .video-container {
-                max-width: 90%;
-            }
-            
-            .loading-text {
                 font-size: 3.5rem;
             }
         }
         
+        @media (min-width: 768px) {
+            .animated-title {
+                font-size: 6rem;
+                height: 120px;
+            }
+            
+            .subtitle {
+                font-size: 2.2rem;
+            }
+            
+            .loading-text {
+                font-size: 4rem;
+            }
+        }
+        
         @media (min-width: 1200px) {
+            .container {
+                max-width: 98%;
+            }
+            
             .video-container {
-                max-width: 85%;
-            }
-        }
-        
-        /* Landscape Mode Styles */
-        .landscape-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vh;
-            height: 100vw;
-            transform: rotate(90deg) translateX(100vw);
-            transform-origin: top left;
-            z-index: 9999;
-            background: black;
-            overflow: hidden;
-        }
-        
-        .landscape-mode .video-container {
-            width: 100vh;
-            height: 100vw;
-            border-radius: 0;
-            max-width: none;
-        }
-        
-        .landscape-mode .video-border {
-            border-radius: 0;
-        }
-        
-        .landscape-mode iframe {
-            border-radius: 0;
-        }
-        
-        .exit-landscape-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .landscape-notification {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10001;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .landscape-notification h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-        
-        .landscape-notification p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        
-        .rotate-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: rotate 2s infinite;
-        }
-        
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(90deg);
+                max-width: 900px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Nền động -->
+    <div class="dynamic-bg" id="dynamicBg"></div>
+    
     <!-- Loading Screen -->
     <div id="loadingScreen">
         <div class="floating-particles" id="particlesContainer"></div>
@@ -657,7 +616,7 @@
                 <div class="progress-bar" id="progressBar"></div>
             </div>
             <p class="progress-text" id="progressText">0%</p>
-            <p class="loading-subtext">Đang Tải🥰...</p>
+            <p class="loading-subtext">Chuẩn bị trải nghiệm tuyệt vời...</p>
         </div>
     </div>
     
@@ -668,8 +627,8 @@
         </div>
     </div>
     
-    <!-- Hiệu ứng hoa phượng rơi (phía sau) -->
-    <div id="flowerContainer"></div>
+    <!-- Hiệu ứng hoa và tuyết rơi -->
+    <div class="falling-container" id="fallingContainer"></div>
     
     <div class="container" id="mainContainer">
         <div class="header">
@@ -683,7 +642,8 @@
                 <iframe id="mediaElement" 
                     src="https://drive.google.com/file/d/1kG09Z2G2ZeUIVDtKxnIwDc7KSAFtT1A9/preview" 
                     allow="autoplay; encrypted-media" 
-                    allowfullscreen>
+                    allowfullscreen
+                    loading="eager">
                 </iframe>
             </div>
         </div>
@@ -694,7 +654,10 @@
                 <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1">
             </div>
             
-            <button class="fullscreen-btn" id="fullscreenBtn">Chế độ ngang</button>
+            <div class="control-group">
+                <label for="brightnessControl">Độ sáng:</label>
+                <input type="range" id="brightnessControl" min="0.5" max="1.5" step="0.1" value="1">
+            </div>
         </div>
     </div>
     
@@ -714,14 +677,37 @@
             const themeToggle = document.getElementById('themeToggle');
             const footer = document.querySelector('.footer');
             const animatedTitle = document.getElementById('animatedTitle');
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
             const videoContainer = document.getElementById('videoContainer');
-            const flowerContainer = document.getElementById('flowerContainer');
+            const fallingContainer = document.getElementById('fallingContainer');
+            const dynamicBg = document.getElementById('dynamicBg');
             const particlesContainer = document.getElementById('particlesContainer');
+            const volumeControl = document.getElementById('volumeControl');
+            const brightnessControl = document.getElementById('brightnessControl');
             const title = "A3K51";
             
             let isDarkMode = false;
-            let isLandscapeMode = false;
+            
+            // Tạo nền động
+            function createDynamicBackground() {
+                for (let i = 0; i < 15; i++) {
+                    const element = document.createElement('div');
+                    element.className = 'bg-element';
+                    
+                    const size = Math.random() * 100 + 50;
+                    element.style.width = `${size}px`;
+                    element.style.height = `${size}px`;
+                    
+                    const left = Math.random() * 100;
+                    const top = Math.random() * 100;
+                    element.style.left = `${left}%`;
+                    element.style.top = `${top}%`;
+                    
+                    element.style.animationDelay = `${Math.random() * 20}s`;
+                    element.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                    
+                    dynamicBg.appendChild(element);
+                }
+            }
             
             // Tạo hiệu ứng hạt nổi
             function createParticles() {
@@ -797,7 +783,7 @@
                             
                             // Bắt đầu các hiệu ứng
                             createTitle();
-                            createFlowers();
+                            createFallingItems();
                         }, 300);
                     }
                 }, intervalTime);
@@ -816,33 +802,73 @@
                 }
             }
             
-            // Tạo hiệu ứng hoa phượng rơi
-            function createFlowers() {
+            // Tạo hiệu ứng hoa và tuyết rơi
+            function createFallingItems() {
                 const flowers = ['❀', '✿', '🌸', '💮', '🏵️'];
+                const snowflakes = ['❄️', '⛄', '🌨️'];
                 
+                // Tạo hoa rơi
                 setInterval(() => {
                     const flower = document.createElement('div');
-                    flower.className = 'flower';
+                    flower.className = 'falling-item flower';
                     flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
                     
-                    // Vị trí ngẫu nhiên nhưng tránh khu vực video
+                    // Vị trí ngẫu nhiên
                     const left = Math.random() * 100;
                     flower.style.left = `${left}%`;
                     
-                    // Chọn animation ngẫu nhiên (rơi trái hoặc phải)
-                    const animationType = Math.random() > 0.5 ? 'fall-left' : 'fall-right';
+                    // Chọn animation ngẫu nhiên
+                    const animationTypes = ['fall-left', 'fall-right', 'fall-slow'];
+                    const animationType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
                     flower.classList.add(animationType);
                     
                     // Thời gian rơi ngẫu nhiên
                     const duration = Math.random() * 5 + 8;
                     flower.style.animationDuration = `${duration}s`;
                     
-                    flowerContainer.appendChild(flower);
+                    // Kích thước ngẫu nhiên
+                    const size = Math.random() * 10 + 20;
+                    flower.style.fontSize = `${size}px`;
+                    
+                    fallingContainer.appendChild(flower);
                     
                     // Xóa hoa sau khi rơi xong
                     setTimeout(() => {
                         if (flower.parentNode) {
                             flower.parentNode.removeChild(flower);
+                        }
+                    }, duration * 1000);
+                }, 500);
+                
+                // Tạo tuyết rơi
+                setInterval(() => {
+                    const snow = document.createElement('div');
+                    snow.className = 'falling-item snow';
+                    snow.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                    
+                    // Vị trí ngẫu nhiên
+                    const left = Math.random() * 100;
+                    snow.style.left = `${left}%`;
+                    
+                    // Chọn animation ngẫu nhiên
+                    const animationTypes = ['fall-left', 'fall-right', 'fall-slow'];
+                    const animationType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
+                    snow.classList.add(animationType);
+                    
+                    // Thời gian rơi ngẫu nhiên
+                    const duration = Math.random() * 3 + 5;
+                    snow.style.animationDuration = `${duration}s`;
+                    
+                    // Kích thước ngẫu nhiên
+                    const size = Math.random() * 10 + 15;
+                    snow.style.fontSize = `${size}px`;
+                    
+                    fallingContainer.appendChild(snow);
+                    
+                    // Xóa tuyết sau khi rơi xong
+                    setTimeout(() => {
+                        if (snow.parentNode) {
+                            snow.parentNode.removeChild(snow);
                         }
                     }, duration * 1000);
                 }, 300);
@@ -857,111 +883,20 @@
                 toggleIcon.textContent = isDarkMode ? '☀️' : '🌙';
             });
             
-            // Xử lý nút chế độ ngang
-            fullscreenBtn.addEventListener('click', function() {
-                if (!isLandscapeMode) {
-                    enterLandscapeMode();
-                } else {
-                    exitLandscapeMode();
-                }
+            // Điều chỉnh âm lượng (giả lập)
+            volumeControl.addEventListener('input', function() {
+                // Trong thực tế, bạn không thể điều khiển âm lượng của iframe từ Google Drive
+                // Đây chỉ là hiệu ứng trực quan
+                console.log("Âm lượng đã được điều chỉnh:", this.value);
             });
             
-            // Vào chế độ ngang
-            function enterLandscapeMode() {
-                // Kiểm tra xem có đang ở chế độ dọc không
-                if (window.innerHeight > window.innerWidth) {
-                    // Hiển thị thông báo xoay ngang
-                    showLandscapeNotification();
-                } else {
-                    // Đã ở chế độ ngang, kích hoạt chế độ xem ngang
-                    activateLandscapeMode();
-                }
-            }
-            
-            // Hiển thị thông báo xoay ngang
-            function showLandscapeNotification() {
-                const notification = document.createElement('div');
-                notification.className = 'landscape-notification';
-                notification.innerHTML = `
-                    <div class="rotate-icon">📱</div>
-                    <h2>Xoay ngang điện thoại</h2>
-                    <p>Vui lòng xoay ngang điện thoại để vào chế độ xem tốt nhất</p>
-                    <button class="fullscreen-btn" id="cancelLandscapeBtn">Hủy</button>
-                `;
-                document.body.appendChild(notification);
-                
-                // Xử lý nút hủy
-                document.getElementById('cancelLandscapeBtn').addEventListener('click', function() {
-                    notification.remove();
-                });
-                
-                // Lắng nghe sự kiện xoay màn hình
-                window.addEventListener('orientationchange', function() {
-                    if (Math.abs(window.orientation) === 90) {
-                        // Đã xoay ngang
-                        notification.remove();
-                        activateLandscapeMode();
-                    }
-                });
-            }
-            
-            // Kích hoạt chế độ ngang
-            function activateLandscapeMode() {
-                videoContainer.classList.add('landscape-mode');
-                
-                // Ẩn các phần tử khác
-                mainContainer.style.display = 'none';
-                themeToggle.style.display = 'none';
-                footer.style.display = 'none';
-                
-                // Tạo nút thoát chế độ ngang
-                const exitBtn = document.createElement('button');
-                exitBtn.className = 'exit-landscape-btn';
-                exitBtn.textContent = 'Thoát chế độ ngang';
-                exitBtn.id = 'exitLandscapeBtn';
-                document.body.appendChild(exitBtn);
-                
-                // Xử lý sự kiện cho nút thoát
-                exitBtn.addEventListener('click', exitLandscapeMode);
-                
-                // Cập nhật trạng thái
-                isLandscapeMode = true;
-                fullscreenBtn.textContent = 'Thoát chế độ ngang';
-                
-                // Khóa xoay màn hình (nếu có thể)
-                if (screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape').catch(function(error) {
-                        console.log('Không thể khóa xoay màn hình: ', error);
-                    });
-                }
-            }
-            
-            // Thoát chế độ ngang
-            function exitLandscapeMode() {
-                videoContainer.classList.remove('landscape-mode');
-                
-                // Hiện lại các phần tử
-                mainContainer.style.display = 'block';
-                themeToggle.style.display = 'flex';
-                footer.style.display = 'block';
-                
-                // Xóa nút thoát
-                const exitBtn = document.getElementById('exitLandscapeBtn');
-                if (exitBtn) {
-                    exitBtn.remove();
-                }
-                
-                // Cập nhật trạng thái
-                isLandscapeMode = false;
-                fullscreenBtn.textContent = 'Chế độ ngang';
-                
-                // Mở khóa xoay màn hình
-                if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
-            }
+            // Điều chỉnh độ sáng
+            brightnessControl.addEventListener('input', function() {
+                document.documentElement.style.setProperty('--brightness', this.value);
+            });
             
             // Khởi tạo hiệu ứng
+            createDynamicBackground();
             createParticles();
             startLoading();
         });
