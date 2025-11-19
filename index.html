@@ -386,6 +386,42 @@
             display: block;
         }
         
+        .access-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 3;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+        }
+        
+        .access-message h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .access-message p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .access-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
         .controls {
             display: flex;
             justify-content: center;
@@ -640,11 +676,18 @@
             <div class="video-container" id="videoContainer">
                 <div class="video-border"></div>
                 <iframe id="mediaElement" 
-                    src="https://drive.google.com/file/d/1GzLkVOs72n02aRMD7NQsdDGtLlXoPn1a/view?usp=drivesdk" 
+                    src="https://drive.google.com/file/d/1GzLkVOs72n02aRMD7NQsdDGtLlXoPn1a/preview" 
                     allow="autoplay; encrypted-media" 
                     allowfullscreen
                     loading="eager">
                 </iframe>
+                <div class="access-message" id="accessMessage" style="display: none;">
+                    <h3>⚠️ Cần quyền truy cập</h3>
+                    <p>Video này yêu cầu quyền truy cập. Vui lòng nhấn nút bên dưới để xem video trực tiếp trên Google Drive.</p>
+                    <a href="https://drive.google.com/file/d/1GzLkVOs72n02aRMD7NQsdDGtLlXoPn1a/view" target="_blank" class="access-btn">
+                        Mở video trên Google Drive
+                    </a>
+                </div>
             </div>
         </div>
         
@@ -683,6 +726,8 @@
             const particlesContainer = document.getElementById('particlesContainer');
             const volumeControl = document.getElementById('volumeControl');
             const brightnessControl = document.getElementById('brightnessControl');
+            const accessMessage = document.getElementById('accessMessage');
+            const mediaElement = document.getElementById('mediaElement');
             const title = "A3K51";
             
             let isDarkMode = false;
@@ -784,9 +829,33 @@
                             // Bắt đầu các hiệu ứng
                             createTitle();
                             createFallingItems();
+                            checkVideoAccess();
                         }, 300);
                     }
                 }, intervalTime);
+            }
+            
+            // Kiểm tra quyền truy cập video
+            function checkVideoAccess() {
+                // Thử tải video và kiểm tra lỗi
+                setTimeout(() => {
+                    // Kiểm tra nếu iframe không tải được nội dung
+                    try {
+                        const iframe = document.getElementById('mediaElement');
+                        iframe.onload = function() {
+                            // Nếu iframe tải thành công, ẩn thông báo
+                            accessMessage.style.display = 'none';
+                        };
+                        
+                        iframe.onerror = function() {
+                            // Nếu có lỗi, hiển thị thông báo
+                            accessMessage.style.display = 'block';
+                        };
+                    } catch (error) {
+                        console.log('Lỗi kiểm tra video:', error);
+                        accessMessage.style.display = 'block';
+                    }
+                }, 2000);
             }
             
             // Tạo hiệu ứng chữ A3K51
